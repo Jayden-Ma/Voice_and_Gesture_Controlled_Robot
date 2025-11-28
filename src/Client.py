@@ -78,16 +78,14 @@ while True:
         if abs(angle) < 15:
             cmd = "forward"
         elif angle > 15:
-            cmd = "right"
-        elif angle < -15:
             cmd = "left"
+        elif angle < -15:
+            cmd = "right"
 
-        # Send command only if it's new
-        if cmd and cmd != last_sent and cooldown <= 0:
-            s.sendall(cmd.encode())
-            print("Sent:", cmd)
-            last_sent = cmd
-            cooldown = 1  # small delay to reduce spam
+        s.sendall(cmd.encode())
+        print("Sent:", cmd)
+        last_sent = cmd
+        cooldown = 5 # small delay to reduce spam
 
     else:
         cv2.putText(frame, "Show Both Hands!", (20, 50),

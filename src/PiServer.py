@@ -1,3 +1,12 @@
+# How to use crawler actions (for reference):
+    # Forward ('forward'):
+    # Backward ('backward'):
+    # Turn Left ('turn left')
+    # Turn Right ('turn right')
+    # Turn Left Angle ('turn left angle')
+    # Turn Right Angle ('turn right angle')
+    # Stand ('stand')
+
 from spider import Spider
 from ezblock import delay
 import socket
@@ -5,10 +14,12 @@ import socket
 # Initialize Spider robot
 __SPIDER__ = Spider([10,11,12,4,5,6,1,2,3,7,8,9])
 
-speed = 100
+speed = 400 # any integer up to the max speed of 1200.
 
 HOST = "0.0.0.0"
 PORT = 5000
+
+__SPIDER__.do_action('stand', 1, speed)
 
 print(f"Starting server on port {PORT}...")
 
