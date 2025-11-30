@@ -14,6 +14,7 @@ import socket
 # Initialize Spider robot
 __SPIDER__ = Spider([10,11,12,4,5,6,1,2,3,7,8,9])
 
+global speed
 speed = 400 # any integer up to the max speed of 1200.
 
 HOST = "0.0.0.0"
@@ -50,6 +51,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
             elif cmd == "right":
                 __SPIDER__.do_action('turn right', 1, speed)
-
+                
+            elif cmd.startswith("speed"):
+                speed = float(cmd.split(":")[1])
+                print("Speed:", speed)
+            
             else:
                 print("Unknown command:", cmd)
