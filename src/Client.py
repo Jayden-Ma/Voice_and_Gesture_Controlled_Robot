@@ -3,9 +3,35 @@ import cv2
 import mediapipe as mp
 import math
 import time
+import tkinter as tk
 
-PI_IP = "10.0.0.27"
+PI_IP = "0.0.0.0"
 PORT = 5000
+
+# Function to be called when the button is clicked
+def start_program():
+    global speed
+    speed = speed_var.get()  # Get the value from the slider
+    root.destroy()  # Close the tkinter window
+    
+
+# Initialize the tkinter window
+root = tk.Tk()
+root.title("Set Speed")
+
+# Variable to hold the speed
+speed_var = tk.DoubleVar(value=1.0)  # Default speed
+
+# Create a slider for speed
+speed_slider = tk.Scale(root, from_=200, to=1200, resolution=0.1, label='Speed', orient='horizontal', variable=speed_var)
+speed_slider.pack()
+
+# Create a button to start the program
+start_button = tk.Button(root, text="Start", command=start_program)
+start_button.pack()
+
+# Run the tkinter main loop
+root.mainloop()
 
 # Connect to Pi
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -33,6 +59,10 @@ cap = cv2.VideoCapture(0)
 
 last_sent = ""
 cooldown = 0
+
+cmd = f"speed:{speed}"
+s.sendall(cmd.encode())
+print("Sent:", cmd)
 
 while True:
     ret, frame = cap.read()
