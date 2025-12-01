@@ -13,6 +13,36 @@ PORT = 5000
 
 speechMode = False
 
+NUMBER_WORDS = {
+    "zero": 0,
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+    "ten": 10,
+}
+
+def extract_steps(command: str, default: int = 1) -> int:
+    command = command.lower()
+
+    # 1) Try to find a numeric digit first
+    m = re.search(r"\d+", command)
+    if m:
+        return int(m.group())
+
+    # 2) If no digits, look for number words
+    for word, value in NUMBER_WORDS.items():
+        if f" {word} " in f" {command} ":
+            return value
+
+    # 3) Fallback
+    return default
+
 # Function to recognize speech commands
 def recognize_speech():
     with sr.Microphone() as source:
@@ -171,11 +201,13 @@ while True:
         speech = recognize_speech()
         if speech is None: continue
         command = speech.lower()
-        match = re.search(r"\d+", command)
-        if match:
-            number = int(match.group())
-        else:
-            number = 1 
+        print(command)
+        #match = re.search(r"\d+", command)
+        #if match:
+            #number = int(match.group())
+        #else:
+            #number = 1 
+        number = extract_steps(command, default=1)
         if command is not None:
             if "forward" in command:
                 command = "forward:" + str(number)
