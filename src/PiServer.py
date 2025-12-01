@@ -47,7 +47,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             print("Received:", cmd)
             cmd_parts = cmd.split(":")
             command = cmd_parts[0]
-            #steps = int(cmd_parts[1]) if len(cmd_parts) > 1 else 1
+            steps = int(float(cmd_parts[1])) if len(cmd_parts) > 1 else 1
 
             if command == "forward":
                 __SPIDER__.do_action('forward', steps, speed)
@@ -60,6 +60,19 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
             elif command == "right":
                 __SPIDER__.do_action('turn right', steps, speed)
+            elif command == "dance":
+                __SPIDER__.do_action('forward', 2, speed)
+                __SPIDER__.do_action('look_left', 1, speed)
+                __SPIDER__.do_action('look_right', 1, speed)
+                for count in range(1):
+                    __SPIDER__.do_action('look_left', 1, speed)
+                    __SPIDER__.do_action('look_right', 1, speed)
+                for count2 in range(1):
+                    __SPIDER__.do_action('stand', 1, speed)
+                    __SPIDER__.do_action('sit', 1, speed)
+                __SPIDER__.do_action('push_up', 1, speed)
+                __SPIDER__.do_action('backward', 1, speed)
+                __SPIDER__.do_action('twist', 1, speed)
                 
             elif cmd.startswith("speed"):
                 speed = float(cmd.split(":")[1])

@@ -167,18 +167,26 @@ while True:
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     else:
-        command = recognize_speech().lower()
-        if command is None: continue
-        number = int(re.search(r"\d+", command).group())
+        print("Speech mode active. Say a command.")
+        speech = recognize_speech()
+        if speech is None: continue
+        command = speech.lower()
+        match = re.search(r"\d+", command)
+        if match:
+            number = int(match.group())
+        else:
+            number = 1 
         if command is not None:
-            if command.contains("forward"):
-                command == "forward:" + str(number)
-            elif command == "backward":
-                command == "backward:" + str(number)
-            elif command == "left":
-                command == "left:" + str(number)
-            elif cmd == "right":
-                command == "right:"+ str(number)
+            if "forward" in command:
+                command = "forward:" + str(number)
+            elif "backward" in command:
+                command = "backward:" + str(number)
+            elif "left" in command:
+                command = "left:" + str(number)
+            elif "right" in command:
+                command = "right:"+ str(number)
+            elif "dance" in command:
+                command = "dance" 
             s.sendall(command.encode())
             print("Sent:", command)
         time.sleep(1)  # small delay to avoid spamming
