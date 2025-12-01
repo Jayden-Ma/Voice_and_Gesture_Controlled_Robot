@@ -5,9 +5,10 @@ import math
 import time
 import tkinter as tk
 import speech_recognition as sr
-import pyttsx3
+import re
+#import pyttsx3
 
-PI_IP = "0.0.0.0"
+PI_IP = "172.20.10.2"
 PORT = 5000
 
 speechMode = False
@@ -31,7 +32,10 @@ def recognize_speech():
             return None
 
 def toggle_speech_mode():
-    pass
+    global speechMode
+    speechMode = True
+    print("Speech mode activated!")
+    
     
 # Function to be called when the button is clicked
 def start_program():
@@ -163,14 +167,21 @@ while True:
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     else:
-        command = recognize_speech()
+        command = recognize_speech().lower()
+        if command is None: continue
+        number = int(re.search(r"\d+", command).group())
         if command is not None:
-            print(f"Command received: {command}")
+            if command.contains("forward"):
+                command == "forward:" + str(number)
+            elif command == "backward":
+                command == "backward:" + str(number)
+            elif command == "left":
+                command == "left:" + str(number)
+            elif cmd == "right":
+                command == "right:"+ str(number)
             s.sendall(command.encode())
             print("Sent:", command)
-        
-
-
+        time.sleep(1)  # small delay to avoid spamming
 # Cleanup
 cap.release()
 cv2.destroyAllWindows()
