@@ -29,5 +29,5 @@ All voice commands must begin with the activation phrase "Hello Spider". Once th
 The user can say "Stop" to cancel the current action.
 
 ### Gestures: 
-We really wanted to go all in for the gesture implementation. Most gestures are unintuitive and require existing knowledge to use the system. They also don't provide fine tuned steering and adjustment. Here is how it currently works, 
+We really wanted to go all in for the gesture implementation. Most gestures are unintuitive and require existing knowledge to use the system. They also don't provide fine-tuned steering and adjustment. Our system uses an innovative and unique steering action instead. 
 
